@@ -150,9 +150,9 @@
                 <version>${flyway-maven-plugin.version}</version>
                 <configuration>
                     <url>${env.JDBC_DATABASE_URL}</url>
-                    <configFiles>
-                        <configFile>src/main/resources/application.properties</configFile>
-                    </configFiles>
+<!--                    <configFiles>-->
+<!--                        <configFile>src/main/resources/application.properties</configFile>-->
+<!--                    </configFiles>-->
                     <baselineOnMigrate>true</baselineOnMigrate>
                 </configuration>
                 <executions>
