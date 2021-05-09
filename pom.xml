@@ -158,7 +158,7 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>migrate</goal>
+<!--                            <goal>migrate</goal>-->
                         </goals>
                     </execution>
                 </executions>
