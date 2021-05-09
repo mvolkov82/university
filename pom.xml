@@ -149,6 +149,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>${flyway-maven-plugin.version}</version>
                 <configuration>
+                    <url>${env.JDBC_DATABASE_URL}</url>
                     <configFiles>
                         <configFile>src/main/resources/application.properties</configFile>
                     </configFiles>
