@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/}" class="btn btn-secondary" role="button">Back</a>
+<div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4>List of subjects:</h4></p>
+<div class="bootstrap-container">
+    <div class="list-group">
+        <div th:each="subject : ${subjects}">
+            <a th:style="${subject.deleted} ? 'color: gray' : 'color: blue'" th:href="@{/subjects/{id}(id=${subject.id})}"
+               th:text="${subject.name}"
+               class="list-group-item list-group-item-action"></a>
+        </div>
+    </div>
+
+    <br>
+
+    <table>
+        <tbody>
+        <tr>
+            <td><a th:href="@{/subjects/edit}" class="btn btn-success">Add Subject</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+
+
+<p><h4><span th:text="'Subjects of' + '&nbsp' + ${teacher.degree} +'&nbsp' + ${teacher.firstName} +'&nbsp'+ ${teacher.lastName}"></span></h4></p>
+<p><h6><span th:text="'[Department:' + '&nbsp' + ${teacher.departmentName} + ']'"></span> </h6></p>
+
+<table class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <form>
+        <b>Teacher's subjects:</b>
+        <table border="1" bordercolor="#5db6ff">
+            <ul class="list-group">
+                <div th:each="subject : ${teacher.subjectDTOS}">
+                    <tr>
+                        <td><a th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.name}"></a></td>
+                        <td>
+                            <button type="submit" class="btn btn-warning" formaction="#"
+                                    th:formaction="@{/teachers/delete-subject(id=${teacher.id},subj=(${subject.id}) )}"
+                                    formmethod="post" value="Delete">Delete
+                            </button>
+                        </td>
+                    </tr>
+                </div>
+            </ul>
+        </table>
+    </form>
+
+    <br>
+
+    <form>
+        <b>All subjects:</b>
+        <ul class="list-group list-group-horizontal">
+            <div th:each="subject : ${subjects}">
+                <li class="list-group-item">
+                    <a th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.name}"></a>
+                    <button type="submit" class="btn btn-success"
+                            formaction="#" th:formaction="@{/teachers/add-subject(id=${teacher.id},subj=(${subject.id}))}"
+                            formmethod="post">Add</button>
+                </li>
+            </div>
+        </ul>
+        <br>
+    </form>
+
+</table>
+</body>
+</html>

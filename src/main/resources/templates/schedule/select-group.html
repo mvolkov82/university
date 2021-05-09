@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-4 mb-3">
+        <form action="/schedule/schedule-group/?" onsubmit="send(this);" th:object="${filter}" method="get">
+
+            <div class="form-group">
+                <label for="dateFrom" class="col-form-label">Date from</label>
+                <input type="date" class="form-control" id="dateFrom" th:field="*{dateFrom}" th:value=${dateFrom}/>
+            </div>
+
+            <div class="form-group">
+                <label for="dateTo" class="col-form-label">Date to</label>
+                <input type="date" class="form-control" id="dateTo" th:field="*{dateTo}" th:value=${dateTo}/>
+            </div>
+
+            <div class="form-group">
+                <label for="groups" class="col-form-label">Select group</label>
+
+                <select class="form-control" id="groups" th:field="*{groupId}">
+                    <option th:each="group:${groups}" th:value="${group.id}" th:utext="${group.name}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">Show schedule</button>
+        </form>
+        <script>
+            function send(form) {
+                form.action += document.getElementById("groups").value;
+                alert(form.action);
+            };
+        </script>
+    </div>
+</div>
+</body>
+</html>

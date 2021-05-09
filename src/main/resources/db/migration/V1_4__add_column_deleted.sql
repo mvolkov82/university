@@ -1,0 +1,9 @@
+ALTER TABLE groups ADD COLUMN "deleted" BOOLEAN;
+UPDATE groups SET deleted = false;
+ALTER TABLE groups ALTER COLUMN deleted SET NOT NULL;
+ALTER TABLE groups ALTER COLUMN deleted SET DEFAULT FALSE;
+
+ALTER TABLE students ADD COLUMN "deleted" BOOLEAN;
+UPDATE students SET deleted = false;
+ALTER TABLE students ALTER COLUMN deleted SET NOT NULL;
+ALTER TABLE students ALTER COLUMN deleted SET DEFAULT FALSE;

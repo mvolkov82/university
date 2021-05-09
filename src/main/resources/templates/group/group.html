@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/groups}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Group information:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${group != null}" class="table table-sm table-striped">
+        <tbody>
+
+        <tr>
+            <th scope="row">Name</th>
+            <td th:text="${group.name}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Department</th>
+            <td><a th:href="@{/departments/{id}(id=${group.departmentId})}" th:text="${group.departmentName}"></a></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Faculty</th>
+            <td><a th:href="@{/faculties/{id}(id=${group.facultyId})}" th:text="${group.facultyName}"></a></td>
+        </tr>
+
+        <tr th:if="${group.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${group.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form action="#" th:action="@{/groups/{todo}(todo=${group.deleted} ? 'restore/' : 'delete/' )}" th:object="${group}" method="post">
+        <input type="hidden" id="id" th:field="*{id}"/>
+        <input type="hidden" id="firstName" th:field="*{name}"/>
+        <input type="hidden" id="deleted" th:field="*{deleted}"/>
+
+        <table>
+            <tbody>
+            <tr>
+                <td th:if="${group.deleted} == false">
+                    <a th:href="@{/groups/edit/(id=${group.id})}" class="btn btn-info">Edit</a>
+                </td>
+
+                <td th:if="${group.deleted} == false">
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Delete
+                    </button>
+                </td>
+
+                <td th:if="${group.deleted}">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Restore
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${group.deleted}, objectDescription=${group.name})"></div>
+    </form>
+</div>
+</body>
+</html>

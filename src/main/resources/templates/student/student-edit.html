@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-4 mb-3">
+        <form action="#" th:action="@{/students/edit}" th:object="${student}" method="post">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}" th:value=${id}/>
+            </div>
+
+            <div class="form-group">
+                <label for="firstName" class="col-form-label">First name</label>
+                <div style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
+                       th:value=${firstName}/>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName" class="col-form-label">Last name</label>
+                <div style="color: red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</div>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
+                       th:value=${lastName}/>
+            </div>
+
+            <div class="form-group">
+                <label for="birthDay" class="col-form-label">Birthday</label>
+                <div style="color: red" th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}">Birthday error</div>
+                <input type="date" class="form-control" id="birthDay" th:field="*{birthDay}"
+                       th:value=${birthDay}/>
+            </div>
+
+            <div class="form-group">
+                <label for="address" class="col-form-label">Address</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}"
+                       th:value=${address}/>
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="col-form-label">Phone</label>
+                <div style="color: red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</div>
+                <input type="text" class="form-control" id="phone" th:field="*{phone}"
+                       th:value=${phone}/>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-form-label">Email</label>
+                <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</div>
+                <input type="text" class="form-control" id="email" th:field="*{email}"
+                       th:value=${email}/>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate" class="col-form-label">Start date</label>
+                <input type="date" class="form-control" id="startDate" th:field="*{startDate}"
+                       th:value=${startDate}/>
+            </div>
+
+            <div class="form-group">
+                <label for="group" class="col-form-label">Group</label>
+                <div style="color: red" th:if="${#fields.hasErrors('groupName')}" th:errors="*{groupName}">studentsInGroupOverLimit</div>
+                <select class="form-control" id="group" th:field="*{groupId}">
+                    <option th:value="null">NO GROUP</option>
+                    <option th:each="group:${groups}" th:value="${group.id}" th:utext="${group.name}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

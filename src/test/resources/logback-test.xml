@@ -1,0 +1,25 @@
+<configuration>
+    <property name="PRODUCT_LOG" value="./log/logback_test.log"/>
+
+    <appender name="FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>${PRODUCT_LOG}</file>
+        <encoder>
+            <pattern>%23d %7p %6r %-50c %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%23d %7p %6r %-50c %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.foxminded.university.dao" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE_APPENDER"/>
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<!--<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">-->
+<a th:href="@{/timetables/{id}(id=${timetable_item.id})}" class="btn btn-secondary" role="button">Back</a>
+
+<table class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4><span th:text="'Timetable of' + '&nbsp' + ${timetable_item.date}"></span></h4></p>
+<p><h6><span th:text="'№' + ${timetable_item.num} +'&nbsp' + '(' + ${timetable_item.lectureName} + ')'"></span></h6></p>
+<p><h6><span th:text="'[Teacher:'  +'&nbsp' + ${timetable_item.teacherDegree} + '&nbsp'+ ${timetable_item.teacherName} + ']'"></span> </h6></p>
+<p><h6><span th:text="'[Auditorium:' + '&nbsp' + ${timetable_item.auditoriumName} + ']'"></span> </h6></p>
+
+    <form>
+        <b>Added groups:</b>
+        <table border="1" bordercolor="#5db6ff">
+            <ul class="list-group">
+                <div th:each="group : ${timetable_item.groups}">
+                    <tr>
+                        <td><a th:href="@{/groups/{id}(id=${group.id})}" th:text="${group.name}"></a></td>
+                        <td>
+                            <button type="submit" class="btn btn-warning" formaction="#"
+                                    th:formaction="@{/timetables/delete-group(id=${timetable_item.id},group=(${group.id}) )}"
+                                    formmethod="post" value="Delete">Delete
+                            </button>
+                        </td>
+                    </tr>
+                </div>
+            </ul>
+        </table>
+    </form>
+
+    <br>
+
+    <form>
+        <b>All groups:</b>
+        <ul class="list-group list-group-horizontal">
+            <div th:each="group : ${groups}">
+                <li class="list-group-item">
+                    <a th:href="@{/groups/{id}(id=${group.id})}" th:text="${group.name}"></a>
+                    <button type="submit" class="btn btn-success"
+                            formaction="#" th:formaction="@{/timetables/add-group(id=${timetable_item.id},group=(${group.id}))}"
+                            formmethod="post">Add</button>
+                </li>
+            </div>
+        </ul>
+        <br>
+    </form>
+
+</table>
+</body>
+</html>

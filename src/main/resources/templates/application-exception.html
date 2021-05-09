@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+<div class="bootstrap-container">
+    <div th:insert="fragments/fragments :: menu"></div>
+
+    <input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+</div>
+</body>
+</html>

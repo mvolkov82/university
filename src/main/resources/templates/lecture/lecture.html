@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<a th:href="@{/lectures}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Lecture:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${lecture != null}" class="table" th:object="${lecture}">
+        <tbody>
+        <tr>
+            <th scope="row">Order number</th>
+            <td th:text="${lecture.num}"></td>
+        </tr>
+            <th scope="row">Name</th>
+            <td th:text="${lecture.name}"></td>
+        </tr>
+        <tr>
+            <th scope="row">Start</th>
+            <td th:text="${lecture.start}" id="start" th:field="*{start}"></td>
+        </tr>
+        <tr>
+            <th scope="row">Finish</th>
+            <td th:text="${lecture.finish}" id="finish" th:field="*{finish}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table th:if="${lecture != null}" class="table" th:object="${lecture}">
+        <form action="#" th:action="@{/lectures/edit/}" th:object="${lecture}" method="post">
+            <input type="hidden" id="id" th:field="*{id}"/>
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <a th:href="@{/lectures/edit/(id=${lecture.id})}" class="btn btn-info">Edit</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<a th:href="@{/timetables}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Timetable item:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${timetable_item != null}" class="table" th:object="${timetable_item}">
+        <tbody>
+
+        <tr>
+            <th scope="row">Date</th>
+            <td th:text="${#temporals.format(timetable_item.date, 'dd/MM/yyyy')}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Lecture number</th>
+            <td th:text="${timetable_item.num}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Subject</th>
+            <td th:text="${timetable_item.subjectName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Auditorium</th>
+            <td th:text="${timetable_item.auditoriumName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Teacher</th>
+            <td th:text="${timetable_item.teacherDegree + '&nbsp' + timetable_item.teacherName}"></td>
+        </tr>
+
+        <tr th:if="${timetable_item.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${timetable_item.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <table th:if="${timetable_item != null}" class="table" th:object="${timetable_item}">
+        <form action="#" th:action="@{/timetables/{todo}(todo=${timetable_item.deleted} ? 'restore/' : 'delete/' )}"
+              th:object="${timetable_item}" method="post">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}" th:value=${id}/>
+                <input type="hidden" class="form-control" th:field="*{lectureId}" th:value=${lectureId}/>
+                <input type="hidden" class="form-control" th:field="*{lectureName}" th:value=${lectureName}/>
+                <input type="hidden" class="form-control" th:field="*{teacherId}" th:value=${teacherId}/>
+                <input type="hidden" class="form-control" th:field="*{teacherName}" th:value=${teacherName}/>
+                <input type="hidden" class="form-control" th:field="*{subjectId}" th:value=${subjectId}/>
+                <input type="hidden" class="form-control" th:field="*{subjectName}" th:value=${subjectName}/>
+                <input type="hidden" class="form-control" th:field="*{auditoriumId}" th:value=${auditoriumId}/>
+                <input type="hidden" class="form-control" th:field="*{auditoriumName}" th:value=${auditoriumName}/>
+                <input type="hidden" class="form-control" th:field="*{date}" th:value=${date}/>
+            </div>
+
+            <table>
+                <tbody>
+                <tr>
+                    <td th:if="${timetable_item.deleted} == false">
+                        <a th:href="@{/timetables/edit/(id=${timetable_item.id})}" class="btn btn-info">Edit</a>
+                    </td>
+
+                    <td th:if="${timetable_item.deleted} == false">
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Delete
+                        </button>
+                    </td>
+
+                    <td th:if="${timetable_item.deleted}">
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Restore
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br>
+            <div>
+                <b>Attached groups:</b>
+                <ul class="list-group list-group-horizontal">
+                    <div th:each="group : ${timetable_item.groups}">
+                        <li class="list-group-item">
+                            <a th:href="@{/groups/{id}(id=${group.id})}" th:text="${group.name}"></a>
+                        </li>
+                    </div>
+                </ul>
+                <br>
+                <a th:href="@{/timetables/groups-edit/(id=${timetable_item.id})}"
+                   th:class="${timetable_item.deleted} ? 'btn btn-info disabled' : 'btn btn-info'">Edit timetable's
+                    groups</a></td>
+            </div>
+            <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${timetable_item.deleted}, objectDescription = ${timetable_item.date + ' ' + timetable_item.num + ' ' + timetable_item.subjectName})">
+            </div>
+        </form>
+    </table>
+</div>
+</body>
+</html>

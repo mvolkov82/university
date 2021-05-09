@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/auditoriums}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Auditorium information:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${auditorium != null}" class="table table-sm table-striped">
+        <tbody>
+
+        <tr>
+            <th scope="row">Name</th>
+            <td th:text="${auditorium.name}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Department</th>
+            <td th:text="${auditorium.departmentName}"></td>
+        </tr>
+
+        <tr th:if="${auditorium.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${auditorium.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form action="#" th:action="@{/auditoriums/{todo}(todo=${auditorium.deleted} ? 'restore/' : 'delete/' )}" th:object="${auditorium}" method="post">
+        <input type="hidden" id="id" th:field="*{id}"/>
+        <input type="hidden" id="firstName" th:field="*{name}"/>
+        <input type="hidden" id="deleted" th:field="*{deleted}"/>
+
+        <table>
+            <tbody>
+            <tr>
+
+                <td th:if="${auditorium.deleted} == false">
+                    <a th:href="@{/auditoriums/edit/(id=${auditorium.id})}" class="btn btn-info">Edit</a>
+                </td>
+
+                <td th:if="${auditorium.deleted} == false">
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Delete
+                    </button>
+                </td>
+
+                <td th:if="${auditorium.deleted}">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Restore
+                    </button>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${auditorium.deleted}, objectDescription=${auditorium.name})"></div>
+
+    </form>
+</div>
+</body>
+</html>

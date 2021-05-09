@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/}" class="btn btn-secondary" role="button">Back</a>
+<div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4>List of groups:</h4></p>
+<div class="bootstrap-container">
+<!--    <div class="list-group">-->
+<!--        <div th:each="group : ${groups}">-->
+<!--            <a th:style="${group.deleted} ? 'color: gray' : 'color: blue'" th:href="@{/groups/{id}(id=${group.id})}"-->
+<!--               th:text="${group.name}"-->
+<!--               class="list-group-item list-group-item-action"></a>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Faculty</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="group : ${groups}">
+            <tr>
+                <td><a th:style="${group.deleted} ? 'color: gray' : 'color: blue'" th:href="@{/groups/{id}(id=${group.id})}" th:text="${group.name}"></a></td>
+                <td th:text="${group.departmentName}"></td>
+                <td th:text="${group.facultyName}"></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+        <tr>
+            <td><a th:href="@{/groups/edit}" class="btn btn-success">Add Group</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

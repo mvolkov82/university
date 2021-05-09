@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<a th:href="@{/teachers}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Teacher information:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${teacher != null}" class="table" th:object="${teacher}">
+        <tbody>
+        <tr>
+            <th scope="row">Name</th>
+            <td th:text="${teacher.firstName} +'&nbsp'+ ${teacher.lastName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Degree</th>
+            <td th:text="${teacher.degree}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Department</th>
+            <td th:text="${teacher.departmentName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Birthday</th>
+            <td th:text="${#temporals.format(teacher.birthDay, 'dd/MM/yyyy')}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Address</th>
+            <td th:text="${teacher.address}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Phone</th>
+            <td th:text="${teacher.phone}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Email</th>
+            <td th:text="${teacher.email}" id="email" th:field="*{email}"></td>
+        </tr>
+
+        <tr th:if="${teacher.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${teacher.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <table th:if="${teacher != null}" class="table" th:object="${teacher}">
+        <form action="#" th:action="@{/teachers/{todo}(todo=${teacher.deleted} ? 'restore/' : 'delete/' )}"
+              th:object="${teacher}" method="post">
+
+            <input type="hidden" id="id" th:field="*{id}"/>
+            <input type="hidden" id="firstName" th:field="*{firstName}"/>
+            <input type="hidden" id="lastName" th:field="*{lastName}"/>
+            <input type="hidden" id="deleted" th:field="*{deleted}"/>
+
+
+            <table>
+                <tbody>
+                <tr>
+                    <td th:if="${teacher.deleted} == false">
+                        <a th:href="@{/teachers/edit/(id=${teacher.id})}" class="btn btn-info">Edit</a></td>
+                    </td>
+
+                    <td th:if="${teacher.deleted} == false">
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Delete
+                        </button>
+                    </td>
+
+                    <td th:if="${teacher.deleted}">
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Restore
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <br>
+            <div>
+                <b>Attached subjects:</b>
+                <ul class="list-group list-group-horizontal">
+                    <div th:each="subject : ${teacher.subjectDTOS}">
+                        <li class="list-group-item">
+                            <a th:href="@{/subjects/{id}(id=${subject.id})}" th:text="${subject.name}"></a>
+                        </li>
+                    </div>
+                </ul>
+                <br>
+                <a th:href="@{/teachers/edit-subjects/(id=${teacher.id})}" class="btn btn-info">Edit teacher's subjects</a></td>
+            </div>
+            <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${teacher.deleted}, objectDescription = ${teacher.firstName + ' ' + teacher.lastName})">
+            </div>
+        </form>
+    </table>
+</div>
+</body>
+</html>

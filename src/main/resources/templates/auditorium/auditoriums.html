@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/}" class="btn btn-secondary" role="button">Back</a>
+<div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4>List of auditoriums:</h4></p>
+<div class="bootstrap-container">
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Auditorium</th>
+            <th scope="col">Department</th>
+            <th scope="col">Faculty</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="auditorium : ${auditoriums}">
+            <tr>
+                <td><a th:style="${auditorium.deleted} ? 'color: gray' : 'color: blue'"
+                       th:href="@{/auditoriums/{id}(id=${auditorium.id})}"
+                       th:text="${auditorium.name}"></a></td>
+                <td th:text="${auditorium.departmentName}"></td>
+                <td th:text="${auditorium.facultyName}"></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+        <tr>
+            <td><a th:href="@{/auditoriums/edit}" class="btn btn-success">Add auditorium</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

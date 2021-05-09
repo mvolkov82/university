@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/faculties}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Faculty information:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${faculty != null}" class="table table-sm table-striped">
+        <tbody>
+
+        <tr>
+            <th scope="row">Name</th>
+            <td th:text="${faculty.name}"></td>
+        </tr>
+
+        <tr th:if="${faculty.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${faculty.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form action="#" th:action="@{/faculties/{todo}(todo=${faculty.deleted} ? 'restore/' : 'delete/' )}" th:object="${faculty}" method="post">
+        <input type="hidden" id="id" th:field="*{id}"/>
+        <input type="hidden" id="name" th:field="*{name}"/>
+        <input type="hidden" id="deleted" th:field="*{deleted}"/>
+
+        <table>
+            <tbody>
+            <tr>
+
+                <td th:if="${faculty.deleted} == false">
+                    <a th:href="@{/faculties/edit/(id=${faculty.id})}" class="btn btn-info">Edit</a>
+                </td>
+
+                <td th:if="${faculty.deleted} == false">
+                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Delete
+                    </button>
+                </td>
+
+                <td th:if="${faculty.deleted}">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#deleteAndRestoreConfirmationModal">
+                        Restore
+                    </button>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${faculty.deleted}, objectDescription=${faculty.name})"></div>
+
+    </form>
+</div>
+</body>
+</html>

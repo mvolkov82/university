@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<a th:href="@{/students}" class="btn btn-secondary" role="button">Back</a>
+
+<p><h4>Student information:</h4></p>
+
+<div class="bootstrap-container">
+
+    <div th:insert="fragments/fragments :: notification"></div>
+
+    <table th:if="${student != null}" class="table" th:object="${student}">
+        <tbody>
+        <tr>
+            <th scope="row">Name</th>
+            <td th:text="${student.firstName} +'&nbsp'+ ${student.lastName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Group</th>
+            <td th:text="${student.groupName}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Birthday</th>
+            <td th:text="${#temporals.format(student.birthDay, 'dd/MM/yyyy')}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Address</th>
+            <td th:text="${student.address}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Phone</th>
+            <td th:text="${student.phone}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Email</th>
+            <td th:text="${student.email}" id="email" th:field="*{email}"></td>
+        </tr>
+
+        <tr>
+            <th scope="row">Start date</th>
+            <td th:text="${#temporals.format(student.startDate, 'dd/MM/yyyy')}"></td>
+        </tr>
+
+        <tr th:if="${student.deleted}">
+            <th scope="row">Deleted</th>
+            <td><input type="checkbox" th:checked="${student.deleted}"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <table th:if="${student != null}" class="table" th:object="${student}">
+        <form action="#" th:action="@{/students/{todo}(todo=${student.deleted} ? 'restore/' : 'delete/' )}" th:object="${student}" method="post">
+
+            <input type="hidden" id="id" th:field="*{id}"/>
+            <input type="hidden" id="firstName" th:field="*{firstName}"/>
+            <input type="hidden" id="lastName" th:field="*{lastName}"/>
+            <input type="hidden" id="deleted" th:field="*{deleted}"/>
+
+            <table>
+                <tbody>
+                <tr>
+                    <td th:if="${student.deleted} == false">
+                        <a th:href="@{/students/edit/(id=${student.id})}" class="btn btn-info">Edit</a></td>
+                    </td>
+
+                    <td th:if="${student.deleted} == false">
+                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Delete
+                        </button>
+                    </td>
+
+                    <td th:if="${student.deleted}">
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#deleteAndRestoreConfirmationModal">
+                            Restore
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:insert="fragments/fragments :: deleteConfirmationFragment(deleted=${student.deleted}, objectDescription = ${student.firstName + ' ' + student.lastName})"></div>
+        </form>
+    </table>
+</div>
+</body>
+</html>

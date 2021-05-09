@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru">
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+<div th:insert="fragments/fragments :: notification"></div>
+<p></p>
+<div class="d-flex justify-content-center">
+    <div class="col-md-4 mb-3">
+        <form action="#" th:action="@{/lectures/edit}" th:object="${lecture}" method="post">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}" th:value=${id}/>
+            </div>
+
+            <div class="form-group">
+                <label for="num" class="col-form-label">Lecture num</label>
+                <div style="color: red" th:if="${#fields.hasErrors('num')}" th:errors="*{num}">Num error</div>
+                <input type="number" class="form-control" id="num" th:field="*{num}" th:value=${num}/>
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="col-form-label">Lecture name</label>
+                <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+                <input type="text" class="form-control" id="name" th:field="*{name}" th:value=${name}/>
+            </div>
+
+            <div class="form-group">
+                <label for="starttime" class="col-form-label">Start time</label>
+                <div style="color: red" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">Start time error</div>
+                <input type="time" class="form-control" id="starttime" placeholder="Start at" th:field="*{start}" th:value=${lecture.start} min="00:01" max="23:59">
+            </div>
+
+            <div class="form-group">
+                <label for="finish" class="col-form-label">Finish time</label>
+                <div style="color: red" th:if="${#fields.hasErrors('finish')}" th:errors="*{finish}">Finish time error</div>
+                <input type="time" class="form-control" id="finish" placeholder="Finish at" th:field="*{finish}" th:value=${lecture.finish} min="00:01" max="23:59">
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

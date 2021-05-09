@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head th:insert="fragments/fragments :: header">
+
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+
+<input type="button" class="btn btn-secondary" value="Back" onclick="history.back()">
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-4 mb-3">
+        <form action="#" th:action="@{/timetables/edit}" th:object="${timetable_item}" method="post">
+
+            <div class="form-group">
+                <input type="hidden" class="form-control" th:field="*{id}" th:value=${id}/>
+            </div>
+
+            <div class="form-group">
+                <label for="date" class="col-form-label">Date</label>
+                <div style="color: red" th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Date error</div>
+                <input type="date" class="form-control" id="date" th:field="*{date}" th:value=${date}/>
+            </div>
+
+            <div class="form-group">
+                <label for="lecture" class="col-form-label">Lecture order number</label>
+                <div style="color: red" th:if="${#fields.hasErrors('lectureId')}" th:errors="*{lectureId}">Lecture error</div>
+                <select class="form-control" id="lecture" th:field="*{lectureId}">
+                    <option th:value="null">NO LECTURE ORDER</option>
+                    <option th:each="lecture:${lectures}" th:value="${lecture.id}"
+                            th:utext="${lecture.num + ' ' + lecture.name}"></option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="subject" class="col-form-label">Subject</label>
+                <div style="color: red" th:if="${#fields.hasErrors('subjectId')}" th:errors="*{subjectId}">Subject error</div>
+                <select class="form-control" id="subject" th:field="*{subjectId}">
+                    <option th:value="null">NO SUBJECT</option>
+                    <option th:each="subject:${subjects}" th:value="${subject.id}"
+                            th:utext="${subject.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="auditorium" class="col-form-label">Auditorium</label>
+                <div style="color: red" th:if="${#fields.hasErrors('auditoriumId')}" th:errors="*{auditoriumId}">Auditorium error</div>
+                <select class="form-control" id="auditorium" th:field="*{auditoriumId}">
+                    <option th:value="null">NO AUDITORIUM</option>
+                    <option th:each="auditorium:${auditoriums}" th:value="${auditorium.id}"
+                            th:utext="${auditorium.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="teacher" class="col-form-label">Teacher</label>
+                <div style="color: red" th:if="${#fields.hasErrors('teacherId')}" th:errors="*{teacherId}">Teacher error</div>
+                <select class="form-control" id="teacher" th:field="*{teacherId}">
+                    <option th:value="null">NO TEACHER</option>
+                    <option th:each="teacher:${teachers}" th:value="${teacher.id}"
+                            th:utext="${teacher.firstName + ' ' + teacher.lastName}"></option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/}" class="btn btn-secondary" role="button">Back</a>
+<div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4>List of lectures:</h4></p>
+<div class="bootstrap-container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order number</th>
+            <th scope="col">Name</th>
+            <th scope="col">Start time</th>
+            <th scope="col">Finish time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="lecture : ${lectures}">
+            <tr>
+                <th scope="row"><a th:href="@{/lectures/{id}(id=${lecture.id})}" th:text="${lecture.num}"></a></th>
+                <td><a th:href="@{/lectures/{id}(id=${lecture.id})}" th:text="${lecture.name}"></a></td>
+                <td><a th:href="@{/lectures/{id}(id=${lecture.id})}" th:text="${lecture.start}"></a></td>
+                <td><a th:href="@{/lectures/{id}(id=${lecture.id})}" th:text="${lecture.finish}"></a></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+        <tr>
+            <td><a th:href="@{/lectures/edit}" class="btn btn-success">Add lecture</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

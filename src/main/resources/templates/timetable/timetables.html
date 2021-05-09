@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:insert="fragments/fragments :: header">
+<body>
+
+<div th:insert="fragments/fragments :: menu"></div>
+<a th:href="@{/}" class="btn btn-secondary" role="button">Back</a>
+<div th:insert="fragments/fragments :: notification"></div>
+
+<p><h4>List of subjects:</h4></p>
+
+
+<div class="d-flex justify-content-left">
+
+        <form action="/timetables/filter?" onsubmit="send(this);" th:object="${filter}" method="post">
+            <table>
+                <tr>
+                    <th><label for="dateFrom" class="col-form-label">Date from</label></th>
+                    <th><label for="dateTo" class="col-form-label">Date to</label></th>
+                    <th><label for="groups" class="col-form-label">Select group</label></th>
+                    <th><label for="teachers" class="col-form-label">Select teacher</label></th>
+                    <th></th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="dateFrom" th:field="*{dateFrom}"
+                                   th:value=${dateFrom}/>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                            <input type="date" class="form-control" id="dateTo" th:field="*{dateTo}" th:value=${dateTo}/>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                            <select class="form-control" id="groups" th:field="*{groupId}">
+                                <option th:value="null"></option>
+                                <option th:each="group:${groups}" th:value="${group.id}"
+                                        th:utext="${group.name}"></option>
+                            </select>
+                        </div>
+                    </td>
+
+
+                    <td>
+                        <div class="form-group">
+                            <select class="form-control" id="teachers" th:field="*{teacherId}">
+                                <option th:value="null"></option>
+                                <option th:each="teacher:${teachers}" th:value="${teacher.id}"
+                                        th:utext="${teacher.firstName + ' ' + teacher.lastName}"></option>
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <button type="submit" class="btn btn-outline-primary">Show schedule</button>
+                        <p></p>
+                    </td>
+                </tr>
+
+            </table>
+
+
+        </form>
+        <script>
+            function send(form) {
+                form.action += document.getElementById("groups").value;
+            };
+        </script>
+
+</div>
+
+
+<div class="bootstrap-container">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Lecture num</th>
+            <th scope="col">Groups</th>
+            <th scope="col">Lecture name</th>
+            <th scope="col">Lecture start</th>
+            <th scope="col">Lecture finish</th>
+            <th scope="col">Subject name</th>
+            <th scope="col">Auditorium name</th>
+            <th scope="col">Teacher name</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <div th:each="timetable : ${timetables}">
+            <tr>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.date}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.num}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td>
+                    <div th:each="group : ${timetable.groups}">
+                        <a th:style="${group.deleted} ? 'color: gray' : 'color: blue'"
+                           th:href="@{/groups/{id}(id=${group.id})}"
+                           th:text="${group.name}"></a>
+                    </div>
+                </td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.lectureName}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.start}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.finish}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.subjectName}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.auditoriumName}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+                <td><a th:href="@{/timetables/{id}(id=${timetable.id})}" th:text="${timetable.teacherName}"
+                       th:style="${timetable.deleted} ? 'color: gray' : 'color: blue'"></a></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+
+    <br>
+
+    <table>
+        <tbody>
+        <tr>
+            <td><a th:href="@{/timetables/edit}" class="btn btn-success">Add timetable</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
