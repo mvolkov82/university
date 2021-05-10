@@ -1,0 +1,12 @@
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (1, 3);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (1, 4);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (4, 5);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (5, 6);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (6, 3);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (6, 4);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (7, 5);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (2, 6);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (8, 3);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (8, 4);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (9, 5);
+INSERT INTO timetable_items_groups (timetable_item_id, group_id) VALUES (3, 6);
