@@ -1,0 +1,9 @@
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 1, 9, 3, 1);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 2, 10, 5, 4);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 3, 8, 2, 3);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 1, 11, 9, 2);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 1, 10, 3, 3);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 2, 9, 4, 2);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 2, 11, 7, 1);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 3, 11, 10, 7);
+INSERT INTO timetable_items (date, lecture_id, teacher_id, subject_id, auditorium_id) VALUES ('2021-05-09', 3, 10, 6, 8);
