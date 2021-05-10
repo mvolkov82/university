@@ -71,8 +71,6 @@ public class TimetableController {
     @GetMapping
     public String getAll(Model model) {
         List<TimetableItemDTO> dto = timetableItemService.getAllTimetableDTOS();
-//        String date = LocalDate.now().toString();
-//        List<TimetableItemDTO> dto = timetableItemService.getAllNotDeletedByDateAndGroupAndTeacherDTOS(date, date, null, null);
         model.addAttribute("timetables", dto);
         TimetableSearchingFilterDTO filterDTO = new TimetableSearchingFilterDTO();
         model.addAttribute("filter", filterDTO);
