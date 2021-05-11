@@ -66,7 +66,7 @@ public class StudentControllerTest {
 
         doThrow(new QueryNotExecuteException(sourceExceptionMessage)).when(studentService).update(any(StudentDTO.class));
 
-        String message = format("Операция для студента %s завершена с ошибкой.", studentTitle);
+        String message = format("Operation for student %s failed.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResultUpdate = mockMvc.perform(post(URL_CREATE_NEW_STUDENT)
@@ -116,13 +116,13 @@ public class StudentControllerTest {
     void shouldCallViewErrorIfEntityNotFoundException() throws Exception {
 
         when(studentService.getByIdStudentDTO(NONEXISTENT_STUDENT_ID)).thenThrow(EntityNotFoundException.class);
-        when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn("Студент с id = 0 не найден.");
+        when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn("Student with id = 0 не найден.");
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/students/" + NONEXISTENT_STUDENT_ID);
         ResultActions result = mockMvc.perform(request);
 
         result.andExpect(MockMvcResultMatchers.view().name("student/student"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("errorMessage"))
-                .andExpect(MockMvcResultMatchers.model().attribute("errorMessage", "Студент с id = 0 не найден."));
+                .andExpect(MockMvcResultMatchers.model().attribute("errorMessage", "Student with id = 0 не найден."));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).markDeleted(studentDTO.getId(), true);
-        String message = format("Студент %s удален.", studentTitle);
+        String message = format("Student %s deleted.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResult = mockMvc.perform(post(URL_DELETE)
@@ -158,7 +158,7 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).markDeleted(studentDTO.getId(), false);
-        String message = format("Студент %s восстановлен.", studentTitle);
+        String message = format("Student %s restored.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResult = mockMvc.perform(post(URL_RESTORE)
@@ -233,7 +233,7 @@ public class StudentControllerTest {
 
         doThrow(new QueryNotExecuteException(sourceExceptionMessage)).when(studentService).create(any(StudentDTO.class));
 
-        String messageTemplate = ("Операция для студента %s завершена с ошибкой.");
+        String messageTemplate = ("Operation for student %s failed.");
         String message = format(messageTemplate, studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
         when(studentService.countByGroupId(any())).thenReturn(1);
@@ -262,7 +262,7 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).create(any(StudentDTO.class));
-        String message = format("Студент %s создан.", studentTitle);
+        String message = format("Student %s created.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResult = mockMvc.perform(post(URL_CREATE_NEW_STUDENT)
@@ -289,7 +289,7 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).update(any(StudentDTO.class));
-        String message = format("Студент %s обновлен.", studentTitle);
+        String message = format("Student %s updated.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResult = mockMvc.perform(post(URL_CREATE_NEW_STUDENT)
@@ -302,7 +302,6 @@ public class StudentControllerTest {
                 .param("email", "email@email.com")
                 .param("startDate", "2020-01-01")
                 .param("groupId", "1")
-
         );
 
         postResult.andExpect(MockMvcResultMatchers.view().name(REDIRECT_TO_ALL_STUDENTS + "/" + studentDTO.getId()))
