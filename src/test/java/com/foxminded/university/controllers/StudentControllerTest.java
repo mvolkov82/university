@@ -1,7 +1,6 @@
 package com.foxminded.university.controllers;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import static java.lang.String.format;
 import static java.util.Locale.US;
@@ -33,12 +32,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(StudentController.class)
 public class StudentControllerTest {
     public static final Long NONEXISTENT_STUDENT_ID = 0L;
-    public static final String ERROR_MESSAGE = format("Student with id = %s not found!", NONEXISTENT_STUDENT_ID);
+    public static final String ERROR_MESSAGE = format("Student with id = %s not found.", NONEXISTENT_STUDENT_ID);
     private static final String URL_DELETE = "/students/delete";
     private static final String URL_RESTORE = "/students/restore";
     private static final String URL_CREATE_NEW_STUDENT = "/students/edit";
@@ -60,24 +58,6 @@ public class StudentControllerTest {
     @MockBean
     private GroupService mockGroupService;
 
-//    @InjectMocks
-//    private StudentController studentController;
-
-//    @BeforeAll
-//    public void setUpBeforeClass() throws Exception {
-//        MockitoAnnotations.initMocks(this);
-//        mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
-//        mockMessageSource.
-//    }
-
-//    @Bean
-//    public LocaleResolver localeResolver() {
-//        SessionLocaleResolver slr = new SessionLocaleResolver();
-//        slr.setDefaultLocale(Locale.US);
-//        return slr;
-//    }
-
-
     @Test
     void whenCallPostForUpdatingStudentAndThrowsExceptionThenShouldSendErrorMessageAndRedirect() throws Exception {
         String sourceExceptionMessage = "Source exception message";
@@ -86,23 +66,21 @@ public class StudentControllerTest {
 
         doThrow(new QueryNotExecuteException(sourceExceptionMessage)).when(studentService).update(any(StudentDTO.class));
 
-        String message = format("Operation for student %s failed.", studentTitle);
-//        String message = format("Операция для студента %s завершена с ошибкой.", studentTitle);
+        String message = format("Операция для студента %s завершена с ошибкой.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
         ResultActions postResultUpdate = mockMvc.perform(post(URL_CREATE_NEW_STUDENT)
-//                .locale(ENGLISH)
-                        .header(HttpHeaders.ACCEPT_LANGUAGE, US.toLanguageTag())
-                        .param("id", String.valueOf(studentDTO.getId()))
-                        .param("name", studentTitle)
-                        .param("firstName", "Ivan")
-                        .param("lastName", "Ivanov")
-                        .param("birthDay", "1980-01-01")
-                        .param("address", "address address address")
-                        .param("phone", "+123456789")
-                        .param("email", "email@email.com")
-                        .param("startDate", "2020-01-01")
-                        .param("groupId", "1")
+                .header(HttpHeaders.ACCEPT_LANGUAGE, US.toLanguageTag())
+                .param("id", String.valueOf(studentDTO.getId()))
+                .param("name", studentTitle)
+                .param("firstName", "Ivan")
+                .param("lastName", "Ivanov")
+                .param("birthDay", "1980-01-01")
+                .param("address", "address address address")
+                .param("phone", "+123456789")
+                .param("email", "email@email.com")
+                .param("startDate", "2020-01-01")
+                .param("groupId", "1")
         );
 
         postResultUpdate.andExpect(MockMvcResultMatchers.view().name(REDIRECT_TO_ALL_STUDENTS))
@@ -138,15 +116,13 @@ public class StudentControllerTest {
     void shouldCallViewErrorIfEntityNotFoundException() throws Exception {
 
         when(studentService.getByIdStudentDTO(NONEXISTENT_STUDENT_ID)).thenThrow(EntityNotFoundException.class);
-//        when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(ERROR_MESSAGE);
-        when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn("Студент с id = 0 не найден!");
+        when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn("Студент с id = 0 не найден.");
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/students/" + NONEXISTENT_STUDENT_ID);
         ResultActions result = mockMvc.perform(request);
 
         result.andExpect(MockMvcResultMatchers.view().name("student/student"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("errorMessage"))
-//                .andExpect(MockMvcResultMatchers.model().attribute("errorMessage", ERROR_MESSAGE));
-                .andExpect(MockMvcResultMatchers.model().attribute("errorMessage", "Студент с id = 0 не найден!"));
+                .andExpect(MockMvcResultMatchers.model().attribute("errorMessage", "Студент с id = 0 не найден."));
     }
 
     @Test
@@ -155,7 +131,6 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).markDeleted(studentDTO.getId(), true);
-//        String message = format("Student %s deleted..", studentTitle);
         String message = format("Студент %s удален.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
@@ -183,7 +158,6 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).markDeleted(studentDTO.getId(), false);
-//        String message = format("Student %s restored.", studentTitle);
         String message = format("Студент %s восстановлен.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
@@ -259,9 +233,7 @@ public class StudentControllerTest {
 
         doThrow(new QueryNotExecuteException(sourceExceptionMessage)).when(studentService).create(any(StudentDTO.class));
 
-//        String message = format("Operation for student %s failed.", studentTitle);
-        ResourceBundle bundle = ResourceBundle.getBundle("messages");
-        String messageTemplate = bundle.getString("fail.student.operation");
+        String messageTemplate = ("Операция для студента %s завершена с ошибкой.");
         String message = format(messageTemplate, studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
         when(studentService.countByGroupId(any())).thenReturn(1);
@@ -290,7 +262,6 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).create(any(StudentDTO.class));
-//        String message = format("Student %s updated.", studentTitle);
         String message = format("Студент %s создан.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 
@@ -318,7 +289,6 @@ public class StudentControllerTest {
         String studentTitle = buildStudentTitle(studentDTO);
 
         doNothing().when(studentService).update(any(StudentDTO.class));
-//        String message = format("Student %s updated.", studentTitle);
         String message = format("Студент %s обновлен.", studentTitle);
         when(mockMessageSource.getMessage(anyString(), any(), any())).thenReturn(message);
 

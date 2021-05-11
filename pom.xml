@@ -87,7 +87,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skipTests>false</skipTests>
                 </configuration>
             </plugin>
             <plugin>
@@ -150,9 +150,6 @@
                 <version>${flyway-maven-plugin.version}</version>
                 <configuration>
                     <url>${env.JDBC_DATABASE_URL}</url>
-<!--                    <configFiles>-->
-<!--                        <configFile>src/main/resources/application.properties</configFile>-->
-<!--                    </configFiles>-->
                     <baselineOnMigrate>true</baselineOnMigrate>
                 </configuration>
                 <executions>

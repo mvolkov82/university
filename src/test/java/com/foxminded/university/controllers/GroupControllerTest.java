@@ -146,31 +146,6 @@ public class GroupControllerTest {
                 .andExpect(MockMvcResultMatchers.flash().attributeExists("errorMessage"));
     }
 
-
-    @Test
-    void whenCallGetForEditPageForCreatingNewGroupShouldSendEmptyGroupDTO() throws Exception {
-        GroupDTO emptyGroupDTO = new GroupDTO();
-
-        ResultActions getResult = mockMvc.perform(get(URL_CREATE_NEW_GROUP));
-
-        getResult.andExpect(MockMvcResultMatchers.view().name("group/group-edit"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("group"))
-                .andExpect(MockMvcResultMatchers.model().attribute("group", emptyGroupDTO));
-    }
-
-    @Test
-    void whenCallGetForEditPageForUpdatingShouldSendGroupDTO() throws Exception {
-        GroupDTO groupDTO = expectedStorage.getExpectedGroupDTO();
-
-        when(mockGroupService.getByIdGroupDTO(groupDTO.getId())).thenReturn(groupDTO);
-
-        ResultActions getResult = mockMvc.perform(get(URL_EDIT_GROUP, groupDTO.getId()));
-
-        getResult.andExpect(MockMvcResultMatchers.view().name("group/group-edit"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("group"))
-                .andExpect(MockMvcResultMatchers.model().attribute("group", groupDTO));
-    }
-
     @Test
     void whenCallPostForUpdatingGroupAndThrowsExceptionThenShouldSendErrorMessageAndRedirect() throws Exception {
         String sourceExceptionMessage = "Source exception message";
